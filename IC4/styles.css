@@ -1,0 +1,80 @@
+:root {
+    --base-font-size: 16px;
+    --base-root-size: 16px;
+}
+
+.quicksand-font {
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 16px;
+    font-style: normal;
+}
+
+.color-box {
+    height: 100px;
+    width: 100px;
+}
+
+#box1 {
+    background-color: #FE938C;
+    margin-right: calc(var(--base-root-size) * 0.5);
+}
+
+#box2 {
+    background-color: #E6B89C;
+    margin-right: calc(var(--base-root-size) * 0.5);
+}
+
+#box3 {
+    background-color: #EAD2AC;
+    margin-right: calc(var(--base-root-size) * 0.5);
+}
+
+#box4 {
+    background-color: #9CAFB7;
+    margin-right: calc(var(--base-root-size) * 0.5);
+}
+
+#box5 {
+    background-color: #4281A4;
+    margin-right: calc(var(--base-root-size) * 0.5);
+}
+
+.small-text {
+    font-size: calc(var(--base-font-size) * 0.6);
+}
+
+p {
+    font-size: var(--base-font-size)
+}
+
+h3 {
+    font-size: calc(var(--base-font-size) * 1.5);
+}
+
+h2 {
+    font-size: calc(var(--base-font-size) * 2);
+}
+
+h1 {
+    font-size: calc(var(--base-font-size) * 3);
+}
+
+.flex {
+    display: flex;
+}
+
+button:hover{
+    background-color: #04AA6D;
+    color: white;
+}
+
+input{
+    color: #ff62b6;
+    /* color: white; */
+}
+
+a:hover {
+    box-shadow: inset 100px 0 0 0 #54b3d6;
+    color: white;
+  }
