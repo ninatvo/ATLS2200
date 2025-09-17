@@ -1,0 +1,85 @@
+.syne-bold {
+    font-family: "Syne", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+}
+
+body {
+    font-family: "Syne", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+    --base-font-size: 16px;
+    --base-root-size: 16px;
+}
+
+p {
+    font-size: var(--base-font-size);
+    color: #c9184a;
+}
+
+h3 {
+    font-size: calc(var(--base-font-size) * 1.5);
+    color: #a4133c;
+}
+
+h2 {
+    font-size: calc(var(--base-font-size) * 2);
+    color: #590d22;
+}
+
+h1 {
+    font-size: calc(var(--base-font-size) * 3);
+    text-align: center;
+    /* color: #590d22; */
+}
+
+.flower{
+    color: #ff4d6d;
+}
+
+.right-space{
+    margin-right: 16px;
+}
+
+.center {
+    text-align: center;
+}
+
+nav {
+    text-align: center;
+    margin-top: -20px;
+}
+
+.img {
+    object-fit: cover;
+}
+
+.about-img{
+    object-fit: cover;
+    margin-top: 20px;
+    display: flex;
+}
+
+.container {
+    display: flex;
+    gap: 1rem;
+    padding: 5px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .profile-img {
+    max-width: 300px;
+    height: auto;
+} */
+
+.intro {
+    max-width: 600px;
+    align-items: center;
+}
