@@ -1,6 +1,11 @@
 .card {
     display: flex;
     flex-wrap: wrap;
+    max-width: 500px;
+    margin: 2rem auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .card-header {
@@ -12,14 +17,14 @@
     align-items: center;
     background-color: lightgray;
     font-family: Helvetica, sans-serif;
+    padding: 1rem;
 }
 
 .card-content {
     display: none;
     align-items: center;
     justify-content: center;
-    
-
+    padding: 0 1rem;
 }
 
 h3 {
@@ -30,8 +35,11 @@ h3 {
 button {
     height: 2rem;
     width: 10rem;
-    border-radius: 20%;
+    border-radius: 20px;
     border: 2px black solid;
     margin-bottom: 2rem;
 }
 
+button:hover {
+    background-color: darkgray;
+}
