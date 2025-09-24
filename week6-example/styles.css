@@ -1,0 +1,48 @@
+.parent-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* repeat(3, 1fr) */
+    grid-template-rows: 1fr 1fr; /* repeat(2, 1fr) */
+    width: 10px;
+    grid-template-areas: 
+        "overall-nav1 course-nav1 main1"
+        "overall-nav2 course-nav2 main2"
+    ;
+}
+
+.box {
+    border: 2px black solid;
+    height: 100px;
+    width: 100px;
+}
+
+#one {
+    background-color: red;
+    grid-area: main2;
+}
+
+#two {
+    background-color: blue;
+    grid-area: course-nav2;
+}
+
+#three {
+    background-color: green;
+    grid-area: overall-nav1;
+}
+
+#four {
+    background-color: yellow;
+    grid-area: overall-nav2;
+}
+
+#five {
+    background-color: orange;
+    grid-area: course-nav1;
+}
+
+#six {
+    background-color: burlywood;
+    /* grid-column: 2/3;
+    grid-row: 1/2; */
+    grid-area: main1;
+}
