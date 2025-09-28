@@ -1,35 +1,27 @@
-//stores hamburger button and nav menu from mobile view
 const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.querySelector('.nav-menu');
 
-//function to toggle the nav menu
 function toggleMenu() {
-    //stores current state of navMenu before click (if open or closed)
     const isOpen = navMenu.classList.contains('show');
-    //toggles btwn .nav-menu to .nav-menu.show to show/hide
     navMenu.classList.toggle('show');
-    //updates the aria-expanded attribute
+
     navToggle.setAttribute('aria-expanded', !isOpen);
+
+    navToggle.classList.toggle('active');
 }
 
-//when hamburger is clicked, toggleMenu runs
 navToggle.addEventListener('click', toggleMenu);
 
-//if key press is Enter or Space bar on hamburger
 navToggle.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
-        //preventDefault stops space bar from default action (scrolling down)
         e.preventDefault();
-        //activate toggle menu
         toggleMenu();
     }
 });
 
-//if click is inside of navbar
 document.addEventListener('click', (e) => {
     const isClickInsideNav = navToggle.contains(e.target) || navMenu.contains(e.target);
 
-    //if click is not inside nav and nav menu conttains show (is open), it closes menu
     if (!isClickInsideNav && navMenu.classList.contains('show')) {
         navMenu.classList.remove('show');
         navToggle.classList.remove('active');
@@ -37,9 +29,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-//selects all links in nav menu
 const navLinks = document.querySelectorAll('.nav-menu a');
-//for each link when clicked it closes nav menu
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
         navMenu.classList.remove('show');
@@ -48,9 +38,7 @@ navLinks.forEach(link => {
     });
 });
 
-//window resizing (mobile view)
 window.addEventListener('resize', () => {
-    //is screen is wider than 768px (desktop)
     if (window.innerWidth > 768) {
         navMenu.classList.remove('show');
         navToggle.classList.remove('active');
@@ -58,5 +46,4 @@ window.addEventListener('resize', () => {
     }
 });
 
-//aria-expanded initially set to false
 navToggle.setAttribute('aria-expanded', 'false');

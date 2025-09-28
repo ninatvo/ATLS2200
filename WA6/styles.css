@@ -51,6 +51,10 @@ body {
     transform: translateY(-1px);
 }
 
+.nav-menu a:active {
+    transform: translateY(0);
+}
+
 .nav-toggle {
     display: none;
     flex-direction: column;
