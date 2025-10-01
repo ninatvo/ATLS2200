@@ -1,0 +1,188 @@
+//stores hamburger button and nav menu from mobile view
+const navToggle = document.querySelector('.nav-toggle');
+const navMenu = document.querySelector('.nav-menu');
+
+//function to toggle the nav menu
+function toggleMenu() {
+    //stores current state of navMenu before click (if open or closed)
+    const isOpen = navMenu.classList.contains('show');
+    //toggles btwn .nav-menu to .nav-menu.show to show/hide
+    navMenu.classList.toggle('show');
+    //updates the aria-expanded attribute
+    navToggle.setAttribute('aria-expanded', !isOpen);
+}
+
+//when hamburger is clicked, toggleMenu runs
+navToggle.addEventListener('click', toggleMenu);
+
+//if key press is Enter or Space bar on hamburger
+navToggle.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+        //preventDefault stops space bar from default action (scrolling down)
+        e.preventDefault();
+        //activate toggle menu
+        toggleMenu();
+    }
+});
+
+//if click is inside of navbar
+document.addEventListener('click', (e) => {
+    const isClickInsideNav = navToggle.contains(e.target) || navMenu.contains(e.target);
+
+    //if click is not inside nav and nav menu conttains show (is open), it closes menu
+    if (!isClickInsideNav && navMenu.classList.contains('show')) {
+        navMenu.classList.remove('show');
+        navToggle.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', 'false');
+    }
+});
+
+//selects all links in nav menu
+const navLinks = document.querySelectorAll('.nav-menu a');
+//for each link when clicked it closes nav menu
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        navMenu.classList.remove('show');
+        navToggle.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', 'false');
+    });
+});
+
+//window resizing (mobile view)
+window.addEventListener('resize', () => {
+    //is screen is wider than 768px (desktop)
+    if (window.innerWidth > 768) {
+        navMenu.classList.remove('show');
+        navToggle.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', 'false');
+    }
+});
+
+//aria-expanded initially set to false
+navToggle.setAttribute('aria-expanded', 'false');
+
+//class search
+const searchInput = document.querySelector('#classSearch');
+const classItems = document.querySelectorAll('.class-item');
+if (searchInput) {
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase();
+        //filters per lowercase input
+        classItems.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = text.includes(query) ? 'list-item' : 'none';
+        });
+    });
+}
+
+//dropdown menus for classes
+const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+dropdownToggles.forEach(toggle => {
+    // on click expand content
+    toggle.addEventListener('click', () => {
+        const content = toggle.nextElementSibling;
+        const isOpen = content.classList.contains('open');
+
+        // close all dropdowns first
+        document.querySelectorAll('.dropdown-content').forEach(c => c.classList.remove('open'));
+
+        // toggle the clicked one
+        if (!isOpen) {
+            content.classList.add('open');
+        }
+    });
+});
+
+classItems.forEach(item => {
+    item.addEventListener('click', () => {
+        item.classList.toggle('expanded');
+    });
+});
+
+// add study groups
+const addGroupForm = document.querySelector('#addGroupForm');
+const studyGroupsList = document.querySelector('#studyGroupsList');
+// storage key in localStorage to save study groups
+const STORAGE_KEY = "studyGroups";
+
+function loadGroups() {
+    //returns saved local database
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return []; // nothing yet
+    try {
+        return JSON.parse(saved); // convert JSON into array
+    } catch (e) {
+        console.error("Corrupt data in localStorage", e);
+        return [];
+    }
+}
+
+// turns study groups array into JSON to store in STORAGE_KEY
+function saveGroups(groups) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(groups));
+}
+
+function renderGroupList(groups) {
+    studyGroupsList.innerHTML = ""; // clear list first
+    // loops through study group array to render all groups
+    groups.forEach((group, index) => renderGroup(group, index));
+}
+
+// adding a group
+function renderGroup(group, index) {
+    //create new list item
+    const li = document.createElement('li');
+    li.classList.add('study-group-item');
+
+    // create new text
+    const text = document.createElement('span');
+    text.textContent = `${group.name} - ${group.class} @ ${group.date}`;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = "x";
+    removeBtn.classList.add('remove-btn');
+
+    // when clicked, remove this group
+    removeBtn.addEventListener('click', () => {
+        let groups = loadGroups(); // get current array
+        groups.splice(index, 1); // remove clicked group
+        saveGroups(groups); // save update
+        renderGroupList(groups); // refresh list
+    });
+
+    li.appendChild(text); // add text to list
+    li.appendChild(removeBtn); // add button
+    studyGroupsList.appendChild(li); // append li to ul
+}
+
+// load and render when page opens
+document.addEventListener("DOMContentLoaded", () => {
+    const groups = loadGroups();
+    renderGroupList(groups);
+});
+
+addGroupForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // prevent page reload
+
+    const groupName = document.querySelector('#groupName').value.trim();
+    const groupClass = document.querySelector('#groupClass').value.trim();
+    const groupDate = document.querySelector('#groupDate').value;
+
+    //create list element per input
+    if (groupName && groupClass && groupDate) {
+        const [year, month, day] = groupDate.split('-');
+        const localDate = new Date(year, month - 1, day); 
+        const formattedDate = localDate.toLocaleDateString(undefined, {
+            year: 'numeric', month: 'short', day: 'numeric'
+        });
+
+        const newGroup = { name: groupName, class: groupClass, date: formattedDate };
+
+        const groups = loadGroups(); // get current groups
+        groups.push(newGroup); // add the new group
+        saveGroups(groups); // save to STORAGE_KEY
+
+        renderGroupList(groups); // update list
+        addGroupForm.reset(); // clear form
+    }
+});
