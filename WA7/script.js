@@ -257,7 +257,7 @@ if (profileForm && nameInput && emailInput && majorInput && aboutInput &&
             about: aboutInput.value.trim()
         };
 
-        if (confirm("Are you sure you want to save this data? All data is stored locally in your browser.")) {
+        if (confirm("Are you sure you want to save this data? All data is stored locally in your browser. We only use this data to display on your profile, and you can completely clear it at any time!")) {
             // save to localStorage
             localStorage.setItem(PROFILE_KEY, JSON.stringify(profileData));
 
