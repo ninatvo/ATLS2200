@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav class="main-nav">
+        <div class="nav-brand">CSCI Hub</div>
+        <button class="nav-toggle" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="resources.html">Class Resources</a></li>
+            <li><a href="#events">Study Groups</a></li>
+            <li><a href="#contact">Study Spots</a></li>
+            <li><a href="profile.html">Profile</a></li>
+        </ul>
+    </nav>
+    <main class="home-grid">
+        <header class="header">Welcome to the CSCI Hub</header>
+        <section class="news">Latest News & Updates</section>
+        <section class="events">Upcoming Study Groups <ul id="studyGroupsList"></ul>
+
+        <form id="addGroupForm">
+            <input type="text" id="groupName" name="groupName" placeholder="Study Group Name" required>
+            <input type="text" id="groupClass" name="groupClass" placeholder="Class (e.g., CSCI 1300)" required>
+            <input type="date" id="groupDate" name="groupDate" required>
+            <button type="submit">Add Study Group</button>
+        </form></section>
+        <aside class="sidebar">Quick Links</aside>
+        <footer class="footer">© 2025 CSCI Hub</footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

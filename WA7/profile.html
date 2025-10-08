@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav class="main-nav">
+        <div class="nav-brand">CSCI Hub</div>
+        <button class="nav-toggle" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="resources.html">Class Resources</a></li>
+            <li><a href="#events">Study Groups</a></li>
+            <li><a href="#contact">Study Spots</a></li>
+            <li><a href="profile.html">Profile</a></li>
+        </ul>
+    </nav>
+
+    <main class="profile-grid">
+        <header class="header">Your Profile</header>
+
+        <section class="profile-info">
+            <div class="profile-card">
+                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                    alt="Profile Picture" class="profile-pic" />
+                <h2 id="displayName">Guest</h2>
+                <p id="displayEmail">guest@example.com</p>
+                <p><strong>Major:</strong> <span id="displayMajor">—</span></p>
+                <p id="displayAbout" class="about">No bio yet.</p>
+            </div>
+        </section>
+
+        <section class="profile-form">
+            <h3>Edit Profile</h3>
+            <form id="profileForm">
+                <label for="nameInput">Name</label>
+                <input id="nameInput" type="text" name="name" placeholder="Enter your name" required />
+                
+                <label for="emailInput">Email</label>
+                <input id="emailInput" type="email" name="email" placeholder="Enter your email" required />
+                
+                <label for="majorInput">Major</label>
+                <input id="majorInput" type="text" name="major" placeholder="Enter your major" />
+                
+                <label for="aboutInput">About You</label>
+                <textarea id="aboutInput" name="about" placeholder="Tell us something about yourself"></textarea>
+                
+                <div class="buttons">
+                    <button type="submit" class="save-btn">Save Profile</button>
+                    <button type="button" id="clearProfile" class="clear-btn">Clear</button>
+                </div>
+            </form>
+        </section>
+
+        <footer class="footer">© 2025 CSCI Hub</footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
