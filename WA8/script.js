@@ -141,7 +141,7 @@ if (addGroupForm && studyGroupsList) {
 
         // create new text
         const text = document.createElement('span');
-        text.textContent = `${group.name} - ${group.class} @ ${group.date}`;
+        text.textContent = `${group.name} - ${group.class} @ ${group.location}, ${group.date} `;
 
         const removeBtn = document.createElement('button');
         removeBtn.textContent = "x";
@@ -161,27 +161,27 @@ if (addGroupForm && studyGroupsList) {
     }
 
     // load and render when page opens
-    document.addEventListener("DOMContentLoaded", () => {
-        const groups = loadGroups();
-        renderGroupList(groups);
-    });
+    const groups = loadGroups();
+    renderGroupList(groups);
+
 
     addGroupForm.addEventListener('submit', (e) => {
         e.preventDefault(); // prevent page reload
 
         const groupName = document.querySelector('#groupName').value.trim();
         const groupClass = document.querySelector('#groupClass').value.trim();
+        const groupLocation = document.querySelector('#groupLocation').value.trim();
         const groupDate = document.querySelector('#groupDate').value;
 
         //create list element per input
-        if (groupName && groupClass && groupDate) {
+        if (groupName && groupClass && groupLocation && groupDate) {
             const [year, month, day] = groupDate.split('-');
             const localDate = new Date(year, month - 1, day);
             const formattedDate = localDate.toLocaleDateString(undefined, {
                 year: 'numeric', month: 'short', day: 'numeric'
             });
 
-            const newGroup = { name: groupName, class: groupClass, date: formattedDate };
+            const newGroup = { name: groupName, class: groupClass, location: groupLocation, date: formattedDate };
 
             const groups = loadGroups(); // get current groups
             groups.push(newGroup); // add the new group

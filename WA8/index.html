@@ -18,26 +18,39 @@
         </button>
         <ul class="nav-menu">
             <li><a href="index.html">Home</a></li>
-            <li><a href="resources.html">Class Resources</a></li>
+            <li><a href="resources.html">Class Search</a></li>
             <li><a href="study-spots.html">Study Spots</a></li>
             <li><a href="profile.html">Profile</a></li>
         </ul>
     </nav>
     <main class="home-grid">
         <header class="header">Welcome to the CSCI Hub!</header>
-        <section class="news">Latest News & Updates</section>
-        <section class="events">Upcoming Study Groups <ul id="studyGroupsList"></ul>
+        <section class="news"><b>Latest News & Updates</b>
+            <li>Reading day on Thursday, October 9th 2025!</li>
+            <li>CSCI 3753 Midterm on Tuesday, October 14th 2025</li>
+            <li>Take the CEAS Academic Integrity Quiz by Oct 16th</li>
+        </section>
 
+        <section class="events"><b>Upcoming Study Groups</b>
+            <ul id="studyGroupsList"></ul>
             <form id="addGroupForm">
                 <input type="text" id="groupName" aria-label="Add Study Group Name" name="groupName"
                     placeholder="Study Group Name" required>
                 <input type="text" id="groupClass" aria-label="Add Study Group Class" name="groupClass"
                     placeholder="Class (e.g., CSCI 1300)" required>
+                <input type="text" id="groupLocation" aria-label="Add Study Group Location" name="groupLocation"
+                    placeholder="Location (e.g., Norlin)" required>
                 <input type="date" id="groupDate" aria-label="Add Study Group Date" name="groupDate" required>
                 <button type="submit" aria-label="Submit Study Group Button">Add Study Group</button>
             </form>
         </section>
-        <aside class="sidebar">Quick Links</aside>
+        <aside class="sidebar"><b>Quick Links</b>
+            <li><a href="https://canvas.colorado.edu">Canvas</a></li>
+            <li><a href="https://www.colorado.edu/cs/">CU Boulder CS Home Page</a></li>
+            <li><a
+                    href="https://catalog.colorado.edu/undergraduate/colleges-schools/engineering-applied-science/programs-study/computer-science/computer-science-bachelor-science-bscs/#fouryearplantext">CU
+                    Boulder CS BS Plan of Study</a></li>
+        </aside>
         <footer class="footer">© 2025 CSCI Hub</footer>
     </main>
 
