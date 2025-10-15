@@ -44,3 +44,13 @@ button:hover {
 .loading.start {
 	width: 400px;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .loading {
+    transition: none; 
+  }
+
+  .loading.start {
+    width: 400px;
+  }
+}
