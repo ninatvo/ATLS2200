@@ -1,0 +1,46 @@
+* {
+	font-family: "BBH Sans Hegarty", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+.center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	height: 90vh;
+}
+
+button {
+	background-color: #ffc0cb;
+	border: 2px black solid;
+	border-radius: 10px;
+	width: 100px;
+	height: 50px;
+	margin-bottom: 20px;
+}
+
+button:hover {
+	background-color: #ffb2bf;
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.448);
+}
+
+.loading-container {
+	width: 400px;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.loading {
+	border: 2px black solid;
+	width: 0;
+	height: 50px;
+	background-color: #47ff50;
+	transition: width 2s ease-in-out;
+	/* transform-origin: left; */
+}
+
+.loading.start {
+	width: 400px;
+}
