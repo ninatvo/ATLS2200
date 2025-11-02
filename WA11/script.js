@@ -1,4 +1,3 @@
-
 const API_KEY = '7b19a4698b3f410fa3b470dcbcd9362c'; 
 const newsContainer = document.getElementById('newsContainer');
 const statusText = document.getElementById('status');
@@ -6,19 +5,18 @@ const topicInput = document.getElementById('topicInput');
 const searchBtn = document.getElementById('searchBtn');
 const clearBtn = document.getElementById('clearBtn');
 
-// load saved topic
+// Load saved topic from localStorage
 const savedTopic = localStorage.getItem('preferredTopic');
 
-// if there is a saved topic, show it
+// If there's a saved topic, show it — otherwise load default headlines
 if (savedTopic) {
     topicInput.value = savedTopic;
     fetchNews(savedTopic);
 } else {
-    // otherwise show default headlines
     fetchTopHeadlines();
 }
 
-// when user clicks Search
+// Search button click
 searchBtn.addEventListener('click', function() {
     const topic = topicInput.value.trim();
     if (topic !== "") {
@@ -29,7 +27,7 @@ searchBtn.addEventListener('click', function() {
     }
 });
 
-// when user clicks Clear
+// Clear button click
 clearBtn.addEventListener('click', function() {
     localStorage.removeItem('preferredTopic');
     topicInput.value = "";
@@ -38,17 +36,21 @@ clearBtn.addEventListener('click', function() {
     fetchTopHeadlines();
 });
 
-// function to fetch news for a topic
+// Fetch news for a specific topic (via proxy)
 function fetchNews(topic) {
     statusText.textContent = "Loading news...";
     newsContainer.innerHTML = "";
 
-    fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(topic)}&language=en&pageSize=10&apiKey=${API_KEY}`)
+    const realUrl = `https://newsapi.org/v2/everything?q=${encodeURIComponent(topic)}&language=en&pageSize=10&apiKey=${API_KEY}`;
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(realUrl)}`;
+
+    fetch(proxyUrl)
         .then(response => response.json())
         .then(data => {
-            if (data.status === "ok" && data.articles.length > 0) {
+            const parsed = JSON.parse(data.contents);
+            if (parsed.status === "ok" && parsed.articles.length > 0) {
                 statusText.textContent = "";
-                displayArticles(data.articles);
+                displayArticles(parsed.articles);
             } else {
                 statusText.textContent = "No articles found for that topic.";
             }
@@ -59,17 +61,21 @@ function fetchNews(topic) {
         });
 }
 
-// function to fetch top US headlines (default feed)
+// Fetch top US headlines (default feed) via proxy
 function fetchTopHeadlines() {
     statusText.textContent = "Loading top headlines...";
     newsContainer.innerHTML = "";
 
-    fetch(`https://newsapi.org/v2/top-headlines?country=us&pageSize=10&apiKey=${API_KEY}`)
+    const realUrl = `https://newsapi.org/v2/top-headlines?country=us&pageSize=10&apiKey=${API_KEY}`;
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(realUrl)}`;
+
+    fetch(proxyUrl)
         .then(response => response.json())
         .then(data => {
-            if (data.status === "ok" && data.articles.length > 0) {
+            const parsed = JSON.parse(data.contents);
+            if (parsed.status === "ok" && parsed.articles.length > 0) {
                 statusText.textContent = "";
-                displayArticles(data.articles);
+                displayArticles(parsed.articles);
             } else {
                 statusText.textContent = "No top headlines found.";
             }
@@ -80,7 +86,7 @@ function fetchTopHeadlines() {
         });
 }
 
-// function to show articles on the page
+// Display fetched articles
 function displayArticles(articles) {
     newsContainer.innerHTML = "";
     articles.forEach(function(article) {
