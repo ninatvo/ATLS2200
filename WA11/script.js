@@ -1,22 +1,31 @@
-const API_KEY = '7b19a4698b3f410fa3b470dcbcd9362c'; 
+let API_KEY = localStorage.getItem('newsApiKey');
+
+if (!API_KEY) {
+    API_KEY = prompt('Enter your NewsAPI key.\nGet one free at: https://newsapi.org/register');
+    if (API_KEY) {
+        localStorage.setItem('newsApiKey', API_KEY);
+        alert('API key saved! Refresh to load news.');
+    }
+}
+
 const newsContainer = document.getElementById('newsContainer');
 const statusText = document.getElementById('status');
 const topicInput = document.getElementById('topicInput');
 const searchBtn = document.getElementById('searchBtn');
 const clearBtn = document.getElementById('clearBtn');
 
-// Load saved topic from localStorage
+// load saved topic from localStorage
 const savedTopic = localStorage.getItem('preferredTopic');
 
-// If there's a saved topic, show it — otherwise load default headlines
+// if there's a saved topic, show it 
 if (savedTopic) {
     topicInput.value = savedTopic;
     fetchNews(savedTopic);
-} else {
+} else { // otherwise show default feed
     fetchTopHeadlines();
 }
 
-// Search button click
+// search button click
 searchBtn.addEventListener('click', function() {
     const topic = topicInput.value.trim();
     if (topic !== "") {
@@ -27,7 +36,7 @@ searchBtn.addEventListener('click', function() {
     }
 });
 
-// Clear button click
+// clear button click
 clearBtn.addEventListener('click', function() {
     localStorage.removeItem('preferredTopic');
     topicInput.value = "";
@@ -36,7 +45,7 @@ clearBtn.addEventListener('click', function() {
     fetchTopHeadlines();
 });
 
-// Fetch news for a specific topic (via proxy)
+// fetch news for a specific topic
 function fetchNews(topic) {
     statusText.textContent = "Loading news...";
     newsContainer.innerHTML = "";
@@ -61,7 +70,7 @@ function fetchNews(topic) {
         });
 }
 
-// Fetch top US headlines (default feed) via proxy
+// fetch default feed
 function fetchTopHeadlines() {
     statusText.textContent = "Loading top headlines...";
     newsContainer.innerHTML = "";
@@ -86,7 +95,7 @@ function fetchTopHeadlines() {
         });
 }
 
-// Display fetched articles
+// display fetched articles
 function displayArticles(articles) {
     newsContainer.innerHTML = "";
     articles.forEach(function(article) {
