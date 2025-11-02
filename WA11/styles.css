@@ -1,0 +1,89 @@
+body {
+    background-color: #f2f2f2;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    background-color: #35bfe6;
+    color: white;
+    padding: 15px;
+    margin: 0;
+}
+
+#controls {
+    background-color: white;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+}
+
+input {
+    padding: 8px;
+    width: 200px;
+}
+
+button {
+    padding: 8px 12px;
+    margin: 5px;
+    background-color: #35bfe6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #1689a9;
+}
+
+#status {
+    font-style: italic;
+    color: gray;
+}
+
+/* --- News Feed Layout --- */
+#newsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Each article card */
+.article {
+    background-color: white;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0 0 4px gray;
+    text-align: left;
+}
+
+.article img {
+    width: 100%;
+    border-radius: 4px;
+}
+
+.article h3 {
+    font-size: 1.1em;
+    margin-top: 10px;
+}
+
+.article p {
+    font-size: 0.9em;
+}
+
+.article a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #35bfe6;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.article a:hover {
+    text-decoration: underline;
+}
