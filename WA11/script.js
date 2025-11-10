@@ -1,4 +1,4 @@
-const API_KEY = '37a51599bdda3765b0152b4bd3c43f0b'; 
+// RSS2JSON free service
 const newsContainer = document.getElementById('newsContainer');
 const statusText = document.getElementById('status');
 const topicInput = document.getElementById('topicInput');
@@ -39,14 +39,17 @@ function fetchNews(topic) {
     statusText.textContent = "Loading news...";
     newsContainer.innerHTML = "";
     
-    const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(topic)}&lang=en&max=10&apikey=${API_KEY}`;
+    // Google News RSS feed through RSS2JSON
+    const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(topic)}&hl=en-US&gl=US&ceid=US:en`;
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&api_key=public&count=10`;
     
-    fetch(url)
+    fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            if (data.articles && data.articles.length > 0) {
+            console.log('Search response:', data);
+            if (data.status === 'ok' && data.items && data.items.length > 0) {
                 statusText.textContent = "";
-                displayArticles(data.articles);
+                displayArticles(data.items);
             } else {
                 statusText.textContent = "No articles found for that topic.";
             }
@@ -57,19 +60,22 @@ function fetchNews(topic) {
         });
 }
 
-// fetch default feed
+// fetch default feed 
 function fetchTopHeadlines() {
     statusText.textContent = "Loading top headlines...";
     newsContainer.innerHTML = "";
     
-    const url = `https://gnews.io/api/v4/top-headlines?lang=en&country=us&max=10&apikey=${API_KEY}`;
+    // Google News RSS feed for US top stories
+    const rssUrl = 'https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en';
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&api_key=public&count=10`;
     
-    fetch(url)
+    fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            if (data.articles && data.articles.length > 0) {
+            console.log('Headlines response:', data);
+            if (data.status === 'ok' && data.items && data.items.length > 0) {
                 statusText.textContent = "";
-                displayArticles(data.articles);
+                displayArticles(data.items);
             } else {
                 statusText.textContent = "No top headlines found.";
             }
@@ -81,16 +87,29 @@ function fetchTopHeadlines() {
 }
 
 // display articles
-function displayArticles(articles) {
+function displayArticles(items) {
     newsContainer.innerHTML = "";
-    articles.forEach(article => {
+    items.forEach(item => {
         const div = document.createElement('div');
         div.className = "article";
+        
+        // extract image from content or use placeholder
+        let imageUrl = 'https://via.placeholder.com/300x200?text=News';
+        if (item.enclosure && item.enclosure.link) {
+            imageUrl = item.enclosure.link;
+        } else if (item.thumbnail) {
+            imageUrl = item.thumbnail;
+        }
+        
+        // description
+        let description = item.description || 'No description available.';
+        description = description.replace(/<[^>]*>/g, '').substring(0, 150) + '...';
+        
         div.innerHTML = `
-            <img src="${article.image || 'https://via.placeholder.com/300x200'}" alt="${article.title || 'News Image'}">
-            <h3>${article.title}</h3>
-            <p>${article.description || 'No description available.'}</p>
-            <a href="${article.url}" target="_blank">Read more</a>
+            <img src="${imageUrl}" alt="${item.title || 'News Image'}" onerror="this.src='https://via.placeholder.com/300x200?text=News'">
+            <h3>${item.title}</h3>
+            <p>${description}</p>
+            <a href="${item.link}" target="_blank">Read more</a>
         `;
         newsContainer.appendChild(div);
     });
