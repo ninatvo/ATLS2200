@@ -39,7 +39,7 @@ function fetchNews(topic) {
     statusText.textContent = "Loading news...";
     newsContainer.innerHTML = "";
     
-    const url = `http://api.mediastack.com/v1/news?access_key=${API_KEY}&keywords=${encodeURIComponent(topic)}&languages=en&limit=10`;
+    const url = `https://api.mediastack.com/v1/news?access_key=${API_KEY}&keywords=${encodeURIComponent(topic)}&languages=en&limit=10`;
     
     fetch(url)
         .then(response => {
@@ -69,7 +69,7 @@ function fetchTopHeadlines() {
     statusText.textContent = "Loading top headlines...";
     newsContainer.innerHTML = "";
     
-    const url = `http://api.mediastack.com/v1/news?access_key=${API_KEY}&countries=us&languages=en&limit=10`;
+    const url = `https://api.mediastack.com/v1/news?access_key=${API_KEY}&countries=us&languages=en&limit=10`;
     
     fetch(url)
         .then(response => {
