@@ -1,4 +1,4 @@
-// RSS2JSON free service
+const API_KEY = '47814adebd92fcbd0a0027c3e4ce109d';
 const newsContainer = document.getElementById('newsContainer');
 const statusText = document.getElementById('status');
 const topicInput = document.getElementById('topicInput');
@@ -39,77 +39,81 @@ function fetchNews(topic) {
     statusText.textContent = "Loading news...";
     newsContainer.innerHTML = "";
     
-    // Google News RSS feed through RSS2JSON
-    const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(topic)}&hl=en-US&gl=US&ceid=US:en`;
-    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&api_key=public&count=10`;
+    const url = `http://api.mediastack.com/v1/news?access_key=${API_KEY}&keywords=${encodeURIComponent(topic)}&languages=en&limit=10`;
     
-    fetch(apiUrl)
-        .then(response => response.json())
+    fetch(url)
+        .then(response => {
+            console.log('Response status:', response.status);
+            return response.json();
+        })
         .then(data => {
-            console.log('Search response:', data);
-            if (data.status === 'ok' && data.items && data.items.length > 0) {
+            console.log('Search data:', data);
+            if (data.data && data.data.length > 0) {
                 statusText.textContent = "";
-                displayArticles(data.items);
+                displayArticles(data.data);
+            } else if (data.error) {
+                statusText.textContent = "API Error: " + data.error.message;
+                console.error('API Error:', data.error);
             } else {
                 statusText.textContent = "No articles found for that topic.";
             }
         })
         .catch(error => {
             console.error("Error fetching news:", error);
-            statusText.textContent = "Error loading news. Please try again.";
+            statusText.textContent = "Error loading news. Check console for details.";
         });
 }
 
-// fetch default feed 
+// fetch default feed
 function fetchTopHeadlines() {
     statusText.textContent = "Loading top headlines...";
     newsContainer.innerHTML = "";
     
-    // Google News RSS feed for US top stories
-    const rssUrl = 'https://news.google.com/rss?hl=en-US&gl=US&ceid=US:en';
-    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&api_key=public&count=10`;
+    const url = `http://api.mediastack.com/v1/news?access_key=${API_KEY}&countries=us&languages=en&limit=10`;
     
-    fetch(apiUrl)
-        .then(response => response.json())
+    fetch(url)
+        .then(response => {
+            console.log('Response status:', response.status);
+            return response.json();
+        })
         .then(data => {
-            console.log('Headlines response:', data);
-            if (data.status === 'ok' && data.items && data.items.length > 0) {
+            console.log('Headlines data:', data);
+            if (data.data && data.data.length > 0) {
                 statusText.textContent = "";
-                displayArticles(data.items);
+                displayArticles(data.data);
+            } else if (data.error) {
+                statusText.textContent = "API Error: " + data.error.message;
+                console.error('API Error:', data.error);
             } else {
                 statusText.textContent = "No top headlines found.";
             }
         })
         .catch(error => {
             console.error("Error fetching headlines:", error);
-            statusText.textContent = "Error loading default news.";
+            statusText.textContent = "Error loading default news. Check console for details.";
         });
 }
 
 // display articles
-function displayArticles(items) {
+function displayArticles(articles) {
     newsContainer.innerHTML = "";
-    items.forEach(item => {
+    articles.forEach(article => {
         const div = document.createElement('div');
         div.className = "article";
         
-        // extract image from content or use placeholder
-        let imageUrl = 'https://via.placeholder.com/300x200?text=News';
-        if (item.enclosure && item.enclosure.link) {
-            imageUrl = item.enclosure.link;
-        } else if (item.thumbnail) {
-            imageUrl = item.thumbnail;
+        // placeholder if no image or if image is null/empty
+        let imageUrl = 'https://via.placeholder.com/300x200/35bfe6/ffffff?text=News+Article';
+        if (article.image && article.image.trim() !== '') {
+            imageUrl = article.image;
         }
         
-        // description
-        let description = item.description || 'No description available.';
-        description = description.replace(/<[^>]*>/g, '').substring(0, 150) + '...';
+        const description = article.description || 'No description available.';
         
         div.innerHTML = `
-            <img src="${imageUrl}" alt="${item.title || 'News Image'}" onerror="this.src='https://via.placeholder.com/300x200?text=News'">
-            <h3>${item.title}</h3>
+            <img src="${imageUrl}" alt="${article.title || 'News Image'}" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x200/35bfe6/ffffff?text=News+Article';">
+            <h3>${article.title}</h3>
             <p>${description}</p>
-            <a href="${item.link}" target="_blank">Read more</a>
+            <a href="${article.url}" target="_blank">Read more</a>
         `;
         newsContainer.appendChild(div);
     });
