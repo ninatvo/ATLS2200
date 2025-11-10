@@ -1,4 +1,4 @@
-const API_KEY = '7b19a4698b3f410fa3b470dcbcd9362c'; 
+const API_KEY = '37a51599bdda3765b0152b4bd3c43f0b'; 
 const newsContainer = document.getElementById('newsContainer');
 const statusText = document.getElementById('status');
 const topicInput = document.getElementById('topicInput');
@@ -7,7 +7,6 @@ const clearBtn = document.getElementById('clearBtn');
 
 // saved topic from localStorage
 const savedTopic = localStorage.getItem('preferredTopic');
-
 if (savedTopic) {
     topicInput.value = savedTopic;
     fetchNews(savedTopic);
@@ -35,26 +34,19 @@ clearBtn.addEventListener('click', function() {
     fetchTopHeadlines();
 });
 
-// proxy to bypass CORS
-function fetchViaProxy(url) {
-    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
-    return fetch(proxy)
-        .then(response => response.json())
-        .then(data => JSON.parse(data.contents));
-}
-
 // fetch news for a specific topic
 function fetchNews(topic) {
     statusText.textContent = "Loading news...";
     newsContainer.innerHTML = "";
-
-    const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(topic)}&language=en&pageSize=10&apiKey=${API_KEY}`;
     
-    fetchViaProxy(url)
-        .then(parsed => {
-            if (parsed.status === "ok" && parsed.articles.length > 0) {
+    const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(topic)}&lang=en&max=10&apikey=${API_KEY}`;
+    
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.articles && data.articles.length > 0) {
                 statusText.textContent = "";
-                displayArticles(parsed.articles);
+                displayArticles(data.articles);
             } else {
                 statusText.textContent = "No articles found for that topic.";
             }
@@ -69,14 +61,15 @@ function fetchNews(topic) {
 function fetchTopHeadlines() {
     statusText.textContent = "Loading top headlines...";
     newsContainer.innerHTML = "";
-
-    const url = `https://newsapi.org/v2/top-headlines?country=us&pageSize=10&apiKey=${API_KEY}`;
-
-    fetchViaProxy(url)
-        .then(parsed => {
-            if (parsed.status === "ok" && parsed.articles.length > 0) {
+    
+    const url = `https://gnews.io/api/v4/top-headlines?lang=en&country=us&max=10&apikey=${API_KEY}`;
+    
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.articles && data.articles.length > 0) {
                 statusText.textContent = "";
-                displayArticles(parsed.articles);
+                displayArticles(data.articles);
             } else {
                 statusText.textContent = "No top headlines found.";
             }
@@ -94,7 +87,7 @@ function displayArticles(articles) {
         const div = document.createElement('div');
         div.className = "article";
         div.innerHTML = `
-            <img src="${article.urlToImage || 'https://via.placeholder.com/300x200'}" alt="${article.title || 'News Image'}">
+            <img src="${article.image || 'https://via.placeholder.com/300x200'}" alt="${article.title || 'News Image'}">
             <h3>${article.title}</h3>
             <p>${article.description || 'No description available.'}</p>
             <a href="${article.url}" target="_blank">Read more</a>
