@@ -1,13 +1,15 @@
 // custom cursor element
 const cursor = document.querySelector(".cursor");
-
+// if device is touchscreen
 const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+// if user has reduced motion enabled, less animations
 const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
 ).matches;
 
+// custom cursor only applied if user is not on touchscreen device && does not prefer reduced motion
 if (!isTouchDevice && !prefersReducedMotion && cursor) {
-    // show custom cursor
+    // show custom circular cursor
     cursor.style.display = "block";
 
     // inject CSS to hide the default cursor
@@ -21,15 +23,15 @@ if (!isTouchDevice && !prefersReducedMotion && cursor) {
 
     // position cursor div to cursor position
     document.addEventListener("mousemove", (e) => {
-        let x = e.clientX;
-        let y = e.clientY;
+        let x = e.clientX; // horizontal
+        let y = e.clientY; // vertical
         cursor.style.left = x + "px";
         cursor.style.top = y + "px";
     });
 
     // 'click' class to cursor on mousedown and remove on mouseup
     document.addEventListener("mousedown", (e) => {
-        cursor.classList.remove("pressable");
+        cursor.classList.remove("pressable"); // makes cursor bigger
         cursor.classList.add("click");
     });
     document.addEventListener("mouseup", (e) => {
@@ -52,10 +54,10 @@ if (!isTouchDevice && !prefersReducedMotion && cursor) {
     });
 }
 
-// smooth scrollin
+// smooth scrolling
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
+        e.preventDefault(); // stop default jumping to section
         const href = this.getAttribute('href');
         
         // home link bug
@@ -67,6 +69,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             return;
         }
         
+        // find element with id matching href to scroll to
         const target = document.querySelector(href);
         if (target) {
             target.scrollIntoView({
@@ -81,10 +84,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const reveals = document.querySelectorAll('.reveal');
 
 const revealOnScroll = () => {
+    // loop thru each element with class "reveal"
     reveals.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150;
+        const elementTop = element.getBoundingClientRect().top; // dist from top of element to top of viewport
+        const elementVisible = 150; // threshold
 
+        // if element is within threshold of entering viewport, add animation
         if (elementTop < window.innerHeight - elementVisible) {
             element.classList.add('active');
         }
